@@ -1,0 +1,4 @@
+*.swp
+.env
+vault
+hosts.yml

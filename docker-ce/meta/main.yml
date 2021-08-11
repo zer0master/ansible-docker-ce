@@ -1,0 +1,20 @@
+
+galaxy_info:
+  author:       Larry Dolinar
+  description:  sets up docker-ce on targeted distributions
+  company:      as if...
+
+  license:      GPL-2.0
+
+  min_ansible_version: 2.9
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - 20.04
+
+  galaxy_tags:
+    - docker
+
+dependencies: []
+

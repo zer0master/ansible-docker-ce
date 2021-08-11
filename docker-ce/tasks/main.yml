@@ -1,0 +1,42 @@
+---
+#NOTE: Ubuntu/Debian-specific !!
+- name: add prereqs
+  ansible.builtin.apt:
+    update_cache: yes
+    name: "{{ docker_prereqs }}"
+    state: present
+  tags:
+    - docker
+
+- name: add docker key
+  # deprecated (but use for now), as other distros added, change to variable form
+  ansible.build.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  tags:
+    - docker
+
+- name: capture distro name
+  ansible.builtin.command:
+    argv:
+      - lsb_release
+      - -cs
+  register: distro_name
+  tags:
+    - docker
+
+- name: add docker repo
+  ansible_builtin_repository:
+    # this too should be "variablized" ;)
+    repo: deb [arch=amd64] ansible-jenkins-on-vm/roles/java/tasks/main.yml "{{ distro_name.stdout }}" stable/
+  tags:
+    - docker
+
+- name: update cache and install docker
+  ansible.builtin.apt:
+    update_cache: yes
+    name: "{{ docker_pkgs }}"
+    state: present
+  tags:
+    - docker
+...
