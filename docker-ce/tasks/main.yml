@@ -10,7 +10,7 @@
 
 - name: add docker key
   # deprecated (but use for now), as other distros added, change to variable form
-  ansible.build.apt_key:
+  ansible.builtin.apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
   tags:
@@ -22,13 +22,15 @@
       - lsb_release
       - -cs
   register: distro_name
+  # might be available from facts; verify this
   tags:
     - docker
 
 - name: add docker repo
-  ansible_builtin_repository:
+  ansible.builtin.apt_repository:
     # this too should be "variablized" ;)
-    repo: deb [arch=amd64] ansible-jenkins-on-vm/roles/java/tasks/main.yml "{{ distro_name.stdout }}" stable/
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ distro_name.stdout }} stable"
+    state: present
   tags:
     - docker
 
