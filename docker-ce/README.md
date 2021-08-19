@@ -1,7 +1,7 @@
 Role Name
 =========
 
-This role does some things (change this sentence, obviously...)
+This role installs Docker Community Edition on Ubuntu
 
 Requirements
 ------------
@@ -12,7 +12,8 @@ Role Variables
 --------------
 
 Set the following variables via a mechanism like `host_vars/(hostname)`, your playbook, or the ansible command line:
-* variable(s)
+* `docker_prereqs`
+* `docker_pkgs`
 
 Dependencies
 ------------
@@ -22,12 +23,22 @@ None.
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Role/variables spec in playbook:
 ```
     - hosts: groupNames
       roles:
-         - role: docker-ce  # or renamed role via requirements.yml
-           # any other variables can go here
+        - role: docker-ce  # or renamed role via requirements.yml
+          # taken verbatim from vars/main.yml; override as needed
+          docker_prereqs:
+            - apt-transport-https
+            - ca-certificates
+            - curl
+            - gnupg-agent
+            - software-properties-common
+          docker_pkgs:
+            - docker-ce
+            - docker-ce-cli
+            - containerd.io
 ```
 License
 -------
